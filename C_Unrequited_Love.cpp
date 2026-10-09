@@ -2,6 +2,9 @@
 #include<algorithm>
 #include<vector>
 #include<numeric>
+
+
+#include <unordered_map>
 using namespace std;
 
 using ll=long long;
@@ -17,32 +20,32 @@ using ll=long long;
 #define rep(i,a,b) for(int i=a; i<b; ++i)
 #define rrep(i,a,b) for(int i=a; i>=b; --i)
 
+
 void solve()
 {
     g(n)
-    vector<int> v(n);
-    for(int &x : v)
+    vector<int> vec(n);
+
+    for(int &x : vec)
     {
         cin>>x;
     }
+    vector<int> sum;
+    for(int i = 0;i<n-4;i++)
+    {
+        sum.pb(vec[i]+vec[i+2]-vec[i+4]);
+    }
+
+    
     ll ans = 0;
+    unordered_map<int,int> mp;
     for(int i=0;i<n-4;i++)
     {
-        int sum = v[i]+v[i+2]-v[i+4];
-        for(int j=i+1;j<n-4;j+=2)
-        {
-            if(v[j]+v[j+2]-v[j+4]==sum)
-            {
-                ans++;
-            }
-        }
-        for(int j=i+6;j<n-4;j+=2)
-        {
-            if(v[j]+v[j+2]-v[j+4]==sum)
-            {
-                ans++;
-            }
-        }
+       int cur = vec[i]+vec[i+2]-vec[i+4];
+       ans += mp[cur];
+       if(i>=2 && sum[i-2]==cur) ans--;
+       if(i>=4 && sum[i-4]==cur) ans--;
+       mp[cur]++;
     }
 
     cout<<ans<<endl;
