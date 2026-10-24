@@ -27,7 +27,7 @@ void solve()
     {
         cin>>v[i];
     }
-    int count = 0;
+   /* int count = 0;
     for(int i=0;i<(n-k);i++)
     {   
         int sum = 0;
@@ -41,6 +41,26 @@ void solve()
         }
     }
     cout<<count<<"\n";
+    */
+
+    vector<int> prefix(n+1);
+    prefix[0]=0;
+    for(int i=1;i<=n;i++)
+    {
+        prefix[i]=(v[i-1]+prefix[i-1])%k;
+    }
+    long long ans = 0;
+    vector<int> cnt(k,0);
+
+    for(int i = k+1;i<=n;i++)
+    {
+        cnt[prefix[i-k-1]]++;
+        ans += cnt[prefix[i]];
+    }
+
+    cout<<ans<<"\n";
+
+    
 }
 
 int32_t main()
